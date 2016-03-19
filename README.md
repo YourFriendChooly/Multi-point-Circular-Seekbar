@@ -36,6 +36,8 @@ pointer will return the currently selected pointer.<br>
 		public abstract void onStopTrackingTouch(CircularSeekBar circularSeekBar, Pointer pointer);
 
 		public abstract void onStartTrackingTouch(CircularSeekBar seekBar, Pointer pointer);
+		
+Please check out <a href = "https://github.com/devadvance/circularseekbar/blob/master/README.md"> Matt's original README.md for more details on functionality </a> Be mindful that some features may have been removed to support my implementation.
 
 <h3>This is the code of an as-yet very green android developer, and as such is far from perfect. Any advice will be graciously accepted!</h3>
 
