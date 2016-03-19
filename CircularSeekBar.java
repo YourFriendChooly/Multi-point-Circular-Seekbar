@@ -620,7 +620,7 @@ public class CircularSeekBar extends View {
 				recalculateAll();
 				invalidate();
 				if (mOnCircularSeekBarChangeListener != null) {
-					mOnCircularSeekBarChangeListener.onStartTrackingTouch(this);
+					mOnCircularSeekBarChangeListener.onStartTrackingTouch(this, pPointerList.get(pPointerList.indexOf(touchedPointer)));
 				}
 				mUserIsMovingPointer = true;
 				lockAtEnd = false;
@@ -670,7 +670,7 @@ public class CircularSeekBar extends View {
 					recalculateAll();
 					invalidate();
 					if (touchedPointer.changeListener != null) {
-                        touchedPointer.changeListener.onProgressChanged(this, touchedPointer.mProgress, getRelativeProgress(touchedPointer), true);
+                        touchedPointer.changeListener.onProgressChanged(this, touchedPointer.mProgress, getRelativeProgress(touchedPointer), pPointerList.get(pPointerList.indexOf(touchedPointer)), true);
 					}
 
 				} else if (lockAtEnd && lockEnabled) {
@@ -678,7 +678,7 @@ public class CircularSeekBar extends View {
 					recalculateAll();
 					invalidate();
 					if (mOnCircularSeekBarChangeListener != null) {
-						touchedPointer.changeListener.onProgressChanged(this, touchedPointer.mProgress, getRelativeProgress(touchedPointer), true);
+						touchedPointer.changeListener.onProgressChanged(this, touchedPointer.mProgress, getRelativeProgress(touchedPointer), pPointerList.get(pPointerList.indexOf(touchedPointer)), true);
 					}
 				} else if ((mMoveOutsideCircle) || (touchEventRadius <= outerRadius)) {
 					if (!(cwDistanceFromStart > mTotalCircleDegrees)) {
@@ -696,7 +696,7 @@ public class CircularSeekBar extends View {
 					recalculateAll();
 					invalidate();
 					if (touchedPointer.changeListener != null) {
-                        touchedPointer.changeListener.onProgressChanged(this, touchedPointer.mProgress, getRelativeProgress(touchedPointer), true);
+                        touchedPointer.changeListener.onProgressChanged(this, touchedPointer.mProgress, getRelativeProgress(touchedPointer), pPointerList.get(pPointerList.indexOf(touchedPointer)), true);
 					}
 				} else {
 					break;
@@ -717,7 +717,7 @@ public class CircularSeekBar extends View {
 				mUserIsMovingPointer = false;
 				invalidate();
 				if (touchedPointer.changeListener != null) {
-                    touchedPointer.changeListener.onStopTrackingTouch(this);
+                    touchedPointer.changeListener.onStopTrackingTouch(this, pPointerList.get(pPointerList.indexOf(touchedPointer)));
 				}
 			} else {
 				return false;
@@ -832,11 +832,11 @@ public class CircularSeekBar extends View {
 	*/
 	public interface OnCircularSeekBarChangeListener {
 
-		public abstract void onProgressChanged(CircularSeekBar circularSeekBar, int absoloutePprogress, float relativeProgress, boolean fromUser);
+		public abstract void onProgressChanged(CircularSeekBar circularSeekBar, int absoloutePprogress, float relativeProgress, Pointer pointer, boolean fromUser);
 
-		public abstract void onStopTrackingTouch(CircularSeekBar seekBar);
+		public abstract void onStopTrackingTouch(CircularSeekBar circularSeekBar, Pointer pointer);
 
-		public abstract void onStartTrackingTouch(CircularSeekBar seekBar);
+		public abstract void onStartTrackingTouch(CircularSeekBar seekBar, Pointer pointer);
 	}
 
 	/**
@@ -1038,6 +1038,13 @@ public class CircularSeekBar extends View {
         return pointer;
 	};
 
+    public Pointer addPointer(OnCircularSeekBarChangeListener l){
+        Pointer pointer = new Pointer(this, l);
+        pPointerList.add(pointer);
+        distributeProgress();
+        return pointer;
+    };
+
     //distributeProgress will position the pointers evenly around the maximum value of the circular seekbar.
     protected void distributeProgress(){
         ListIterator<Pointer> pPointerIterator = pPointerList.listIterator();
@@ -1194,6 +1201,12 @@ public class CircularSeekBar extends View {
 			setProgress(pProgress);
             this.changeListener = l;
 		}
+
+        //Constructor with distributed thumbs and a ChangeListener
+        public Pointer(CircularSeekBar circularSeekBar, OnCircularSeekBarChangeListener l){
+            seek = circularSeekBar;
+            this.changeListener = l;
+        }
 
         //Constructer without a change listener
 		public Pointer(int pProgress, CircularSeekBar circularSeekBar){
