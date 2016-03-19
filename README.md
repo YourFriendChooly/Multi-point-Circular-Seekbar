@@ -18,10 +18,24 @@ In modifying Matt's work for multiple thumbs, each thumb must now be instantiate
 
     Circularseekbar.addPointer()
     No argument constructer will evenly distribute the pointers across the entirety of the circle.
+    
+    Circularseekbar.addPointer(OnCircularSeekBarChangeListener l)
+    Same as above, with the ability to add an independant listener.
 
 Additionally, each thumb can have it's own color defined using the builder pattern:
 
     Circularseekbar.addPointer().setColor(int Color);
+    
+<h2> Listeners </h2>
+
+    onProgressChanged(CircularSeekBar circularSeekBar, int absoloutePprogress, float relativeProgress, Pointer pointer, boolean fromUser);
+absoloutepProgress is the progress (in percentage) relative to the Circular Seekbar's origin,<br>
+relativeProgress is the progress (in percentage) relative to the Pointer nearest right-most neighbor.<br>
+pointer will return the currently selected pointer.<br>
+
+		public abstract void onStopTrackingTouch(CircularSeekBar circularSeekBar, Pointer pointer);
+
+		public abstract void onStartTrackingTouch(CircularSeekBar seekBar, Pointer pointer);
 
 <h3>This is the code of an as-yet very green android developer, and as such is far from perfect. Any advice will be graciously accepted!</h3>
 
