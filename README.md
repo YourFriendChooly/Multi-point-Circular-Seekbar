@@ -1,5 +1,6 @@
 # Multi-point-Circular-Seekbar
 
+![GIF Demo](https://zippy.gfycat.com/IndelibleGiantFishingcat.gif)
 
 <h2>Multi-point Circular Seekbar</h2>
 
