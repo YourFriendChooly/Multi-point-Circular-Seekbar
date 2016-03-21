@@ -1,6 +1,6 @@
 # Multi-point-Circular-Seekbar
 
-![GIF Demo](https://zippy.gfycat.com/IndelibleGiantFishingcat.gif)
+![GIF Demo](https://zippy.gfycat.com/GivingAncientBellfrog.gif)
 
 <h2>Multi-point Circular Seekbar</h2>
 
@@ -30,6 +30,7 @@ Additionally, each thumb can have it's own color defined using the builder patte
 <h2> Listeners </h2>
 
     onProgressChanged(CircularSeekBar circularSeekBar, int absoloutePprogress, float relativeProgress, Pointer pointer, boolean fromUser);
+
 absoloutepProgress is the progress (in percentage) relative to the Circular Seekbar's origin,<br>
 relativeProgress is the progress (in percentage) relative to the Pointer nearest right-most neighbor.<br>
 pointer will return the currently selected pointer.<br>
